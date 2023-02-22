@@ -1,3 +1,41 @@
+import random
+
+
+class Voivodeship:
+    def __init__(self, voivodeship):
+        self.voivodeship = voivodeship
+
+    def print_q_and_a(self):
+        print("Co to za rejestracja? " + random.choice(list(self.voivodeship.keys())))
+        for iterator in range(1, 5):
+            print(str(iterator) + ": " + random.choice(list(self.voivodeship.values())))
+
+
+def menu():
+
+    choice = input("Wybierz województwo, któego tablic rejestracyjnych chcesz nauczyć się: ")
+    print()
+    print("1. Podlaskie")
+    print("2. Kujawsko-Pomorskie")
+    print("3. Dolnośląskie")
+    print("4. Łódzkie")
+    print("5. Lubuskie")
+    print("6. Pomorskie")
+    print("7. Małopolskie")
+    print("8. Lubelskie")
+    print("9. Warmińsko-Mazurskie")
+    print("10. Opolskie")
+    print("11. Wielkopolskie")
+    print("12. Podkarpackie")
+    print("13. Śląskie")
+    print("14. Świętokrzyskie")
+    print("15. Mazowieckie")
+    print("16. Zachodnipomorskie")
+    print()
+
+    return choice
+
+
 def main():
     podlaskie = {
         "BAU": "Augustów",
@@ -435,6 +473,10 @@ def main():
         "ZSZ": "Szczecinek",
         "ZWA": "Wałcz"
     }
+
+    test = Voivodeship(podlaskie)
+
+    test.print_q_and_a()
 
 
 if __name__ == '__main__':
