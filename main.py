@@ -1,42 +1,50 @@
 import random
 
+import colorama as colorama
+
 
 class Voivodeship:
     def __init__(self, voivodeship):
         self.voivodeship = voivodeship
 
     def print_q_and_a(self):
-        print("Co to za rejestracja? " + random.choice(list(self.voivodeship.keys())))
-        for iterator in range(1, 5):
-            print(str(iterator) + ": " + random.choice(list(self.voivodeship.values())))
+
+        question_and_answer = random.choice(list(self.voivodeship.items()))
+        result = []
+        random_slot = random.randint(0, 3)
+        colorama.init(autoreset=True)
+
+        while True:
+            while len(result) < 4:
+                element = random.choice(list(self.voivodeship.values()))
+                if element not in result:
+                    result.append(element)
+
+            result[random_slot] = str(question_and_answer[1])
+
+            if result.count(str(question_and_answer[1])) > 1:
+                result.clear()
+            else:
+                break
+
+        print("\nCo to za rejestracja? " + str(question_and_answer[0]))
+        iteration = 1
+        for answer in result:
+            print(str(iteration) + ". " + answer)
+            iteration += 1
+
+        while True:
+            guess = int(input("Odpowiedź: "))
+            if guess == random_slot + 1:
+                print(colorama.Fore.GREEN + "Poprawna odpowiedź!")
+                break
+            elif guess == 0:
+                break
+            else:
+                print(colorama.Fore.RED + "\nNiepoprawna odpowiedź!")
 
 
 def menu():
-
-    choice = input("Wybierz województwo, któego tablic rejestracyjnych chcesz nauczyć się: ")
-    print()
-    print("1. Podlaskie")
-    print("2. Kujawsko-Pomorskie")
-    print("3. Dolnośląskie")
-    print("4. Łódzkie")
-    print("5. Lubuskie")
-    print("6. Pomorskie")
-    print("7. Małopolskie")
-    print("8. Lubelskie")
-    print("9. Warmińsko-Mazurskie")
-    print("10. Opolskie")
-    print("11. Wielkopolskie")
-    print("12. Podkarpackie")
-    print("13. Śląskie")
-    print("14. Świętokrzyskie")
-    print("15. Mazowieckie")
-    print("16. Zachodnipomorskie")
-    print()
-
-    return choice
-
-
-def main():
     podlaskie = {
         "BAU": "Augustów",
         "BBI": "Bielsk Podlaski",
@@ -57,126 +65,126 @@ def main():
         "BZA": "Zambrów",
     }
     kujawsko_pomorskie = {
-    "CAL": "Aleksandrów Kujawski",
-    "CB": "Bydgoszcz(miasto)",
-    "CBR": "Brodnica",
-    "CBY": "Bydgoszcz(powiat)",
-    "CCH": "Chełmno",
-    "CG": "Grudziądz",
-    "CGR": "Grudziądz(powiat)",
-    "CGD": "Golub Dobrzyń",
-    "CIN": "Inowrocław",
-    "CLI": "Lipno",
-    "CMG": "Mogilno",
-    "CNA": "Nakło nad Notecią",
-    "CRA": "Radziejów",
-    "CRY": "Rypin",
-    "CSW": "Świecie",
-    "CSE": "Sępólno Krajeńskie",
-    "CT": "Toruń(miasto)",
-    "CTR": "Toruń(powiat)",
-    "CTU": "Tuchola",
-    "CWA": "Wąbrzeźno",
-    "CW": "Włocławek(miasto)",
-    "CWL": "Włocławek(powiat)",
-    "CZN": "Żnin"
+        "CAL": "Aleksandrów Kujawski",
+        "CB": "Bydgoszcz(miasto)",
+        "CBR": "Brodnica",
+        "CBY": "Bydgoszcz(powiat)",
+        "CCH": "Chełmno",
+        "CG": "Grudziądz",
+        "CGR": "Grudziądz(powiat)",
+        "CGD": "Golub Dobrzyń",
+        "CIN": "Inowrocław",
+        "CLI": "Lipno",
+        "CMG": "Mogilno",
+        "CNA": "Nakło nad Notecią",
+        "CRA": "Radziejów",
+        "CRY": "Rypin",
+        "CSW": "Świecie",
+        "CSE": "Sępólno Krajeńskie",
+        "CT": "Toruń(miasto)",
+        "CTR": "Toruń(powiat)",
+        "CTU": "Tuchola",
+        "CWA": "Wąbrzeźno",
+        "CW": "Włocławek(miasto)",
+        "CWL": "Włocławek(powiat)",
+        "CZN": "Żnin"
     }
     dolnoslaskie = {
-    "DB": "Wałbrzych(miasto)",
-    "DBA": "Wałbrzych(powiat)",
-    "DBL": "Bolesławiec",
-    "DDZ": "Dzierżoniów",
-    "DGL": "Głogów",
-    "DGR": "Góra",
-    "DJ": "Jelenia Góra(miasto)",
-    "DJA": "Jawor",
-    "DJE": "Jelenia Góra(powiat)",
-    "DKA": "Kamienna Góra",
-    "DKL": "Kłodzko",
-    "DL": "Legnica(miasto)",
-    "DLB": "Lubań",
-    "DLE": "Legnica(powiat)",
-    "DLU": "Lubin",
-    "DLW": "Lwówek Śląski",
-    "DMI": "Milicz",
-    "DOA": "Oława",
-    "DOL": "Oleśnica",
-    "DPL": "Polkowice",
-    "DSR": "Środa Śląska",
-    "DST": "Strzelin",
-    "DSW": "Świdnica",
-    "DTR": "Trzebnica",
-    "DW": "Wrocław(miasto)",
-    "DWL": "Wołów",
-    "DWR": "Wrocław(powiat)",
-    "DZA": "Ząbkowice Ślaskie",
-    "DZG": "Zgorzelec",
-    "DZL": "Złotoryja"
+        "DB": "Wałbrzych(miasto)",
+        "DBA": "Wałbrzych(powiat)",
+        "DBL": "Bolesławiec",
+        "DDZ": "Dzierżoniów",
+        "DGL": "Głogów",
+        "DGR": "Góra",
+        "DJ": "Jelenia Góra(miasto)",
+        "DJA": "Jawor",
+        "DJE": "Jelenia Góra(powiat)",
+        "DKA": "Kamienna Góra",
+        "DKL": "Kłodzko",
+        "DL": "Legnica(miasto)",
+        "DLB": "Lubań",
+        "DLE": "Legnica(powiat)",
+        "DLU": "Lubin",
+        "DLW": "Lwówek Śląski",
+        "DMI": "Milicz",
+        "DOA": "Oława",
+        "DOL": "Oleśnica",
+        "DPL": "Polkowice",
+        "DSR": "Środa Śląska",
+        "DST": "Strzelin",
+        "DSW": "Świdnica",
+        "DTR": "Trzebnica",
+        "DW": "Wrocław(miasto)",
+        "DWL": "Wołów",
+        "DWR": "Wrocław(powiat)",
+        "DZA": "Ząbkowice Ślaskie",
+        "DZG": "Zgorzelec",
+        "DZL": "Złotoryja"
     }
     lodzkie = {
-    "EBE": "Bełchatów",
-    "EBR": "Brzeziny",
-    "EKU": "Kutno",
-    "EL": "Łódź(miasto)",
-    "ELA": "Łask",
-    "ELC": "Łowicz",
-    "ELE": "Łęczyca",
-    "ELW": "Łódź Wschód",
-    "EOP": "Opoczno",
-    "EP": "Piotrków Trybunalski(miasto)",
-    "EPA": "Pabianice",
-    "EPD": "Poddębice",
-    "EPI": "Piotrków Trybunalski(powiat)",
-    "EPJ": "Pajęczno",
-    "ERA": "Radomsko",
-    "ERW": "Rawa Mazowiecka",
-    "ES": "Skierniewice",
-    "ESI": "Sieradz",
-    "ESK": "Skierniewice",
-    "ETM": "Tomaszów Mazowiecki",
-    "EWE": "Wieruszów",
-    "EWI": "Wieluń",
-    "EZD": "Zduńska Wola",
-    "EZG": "Zgierz"
+        "EBE": "Bełchatów",
+        "EBR": "Brzeziny",
+        "EKU": "Kutno",
+        "EL": "Łódź(miasto)",
+        "ELA": "Łask",
+        "ELC": "Łowicz",
+        "ELE": "Łęczyca",
+        "ELW": "Łódź Wschód",
+        "EOP": "Opoczno",
+        "EP": "Piotrków Trybunalski(miasto)",
+        "EPA": "Pabianice",
+        "EPD": "Poddębice",
+        "EPI": "Piotrków Trybunalski(powiat)",
+        "EPJ": "Pajęczno",
+        "ERA": "Radomsko",
+        "ERW": "Rawa Mazowiecka",
+        "ES": "Skierniewice",
+        "ESI": "Sieradz",
+        "ESK": "Skierniewice",
+        "ETM": "Tomaszów Mazowiecki",
+        "EWE": "Wieruszów",
+        "EWI": "Wieluń",
+        "EZD": "Zduńska Wola",
+        "EZG": "Zgierz"
     }
     lubuskie = {
-    "FG": "Gorzów Wielkopolski(miasto)",
-    "FGW": "Gorzów Wielkopolski(powiat)",
-    "FKR": "Krosno Odrzańskie",
-    "FMI": "Międzyrzecz",
-    "FNW": "Nowa Sól",
-    "FSD": "Strzelce Krajeńskie",
-    "FSL": "Słubice",
-    "FSU": "Sulęcin",
-    "FSW": "Świebodzin",
-    "FWS": "Wschowa",
-    "FZ": "Zielona Góra(miasto)",
-    "FZA": "Żary",
-    "FZG": "Żagań",
-    "FZI": "Zielona Góra(powiat)"
+        "FG": "Gorzów Wielkopolski(miasto)",
+        "FGW": "Gorzów Wielkopolski(powiat)",
+        "FKR": "Krosno Odrzańskie",
+        "FMI": "Międzyrzecz",
+        "FNW": "Nowa Sól",
+        "FSD": "Strzelce Krajeńskie",
+        "FSL": "Słubice",
+        "FSU": "Sulęcin",
+        "FSW": "Świebodzin",
+        "FWS": "Wschowa",
+        "FZ": "Zielona Góra(miasto)",
+        "FZA": "Żary",
+        "FZG": "Żagań",
+        "FZI": "Zielona Góra(powiat)"
     }
     pomorskie = {
-    "GA": "Gdynia",
-    "GBY": "Bytów",
-    "GCH": "Chojnice",
-    "GCZ": "Człuchów",
-    "GD": "Gdańsk(miasto)",
-    "GDA": "Gdańsk(powiat Pruszcz Gdański)",
-    "GKA": "Kartuzy",
-    "GKS": "Kościerzyna",
-    "GKW": "Kwidzyn",
-    "GLE": "Lębork",
-    "GMB": "Malbork",
-    "GND": "Nowy Dwór Gdański",
-    "GPU": "Puck",
-    "GS": "Słupsk(miasto)",
-    "GSL": "Słupsk(powiat)",
-    "GSP": "Sopot",
-    "GST": "Starogard Gdański",
-    "GSZ": "Sztum",
-    "GTC": "Tczew",
-    "GWE": "Wejherowo",
-    "GWO": "Wejherowo(powiat)"
+        "GA": "Gdynia",
+        "GBY": "Bytów",
+        "GCH": "Chojnice",
+        "GCZ": "Człuchów",
+        "GD": "Gdańsk(miasto)",
+        "GDA": "Gdańsk(powiat Pruszcz Gdański)",
+        "GKA": "Kartuzy",
+        "GKS": "Kościerzyna",
+        "GKW": "Kwidzyn",
+        "GLE": "Lębork",
+        "GMB": "Malbork",
+        "GND": "Nowy Dwór Gdański",
+        "GPU": "Puck",
+        "GS": "Słupsk(miasto)",
+        "GSL": "Słupsk(powiat)",
+        "GSP": "Sopot",
+        "GST": "Starogard Gdański",
+        "GSZ": "Sztum",
+        "GTC": "Tczew",
+        "GWE": "Wejherowo",
+        "GWO": "Wejherowo(powiat)"
     }
     malopolskie = {
         "KBC": "Bochnia",
@@ -265,7 +273,7 @@ def main():
         "OPO": "Opole(powiat)",
         "OPR": "Prudnik",
         "OST": "Strzelce Opolskie"
-        }
+    }
     wielkopolskie = {
         "PCH": "Chodzież",
         "PCT": "Czarnków",
@@ -304,7 +312,7 @@ def main():
         "PWR": "Września",
         "PZ": "Poznań(powiat od 2002r.)",
         "PZL": "Złotów"
-     }
+    }
     podkarpackie = {
         "RBI": "Ustrzyki Dolne",
         "RBR": "Brzozów",
@@ -474,9 +482,87 @@ def main():
         "ZWA": "Wałcz"
     }
 
-    test = Voivodeship(podlaskie)
+    print()
+    print("0. Exit")
+    print("1. Podlaskie")
+    print("2. Kujawsko-Pomorskie")
+    print("3. Dolnośląskie")
+    print("4. Łódzkie")
+    print("5. Lubuskie")
+    print("6. Pomorskie")
+    print("7. Małopolskie")
+    print("8. Lubelskie")
+    print("9. Warmińsko-Mazurskie")
+    print("10. Opolskie")
+    print("11. Wielkopolskie")
+    print("12. Podkarpackie")
+    print("13. Śląskie")
+    print("14. Świętokrzyskie")
+    print("15. Mazowieckie")
+    print("16. Zachodnipomorskie")
+    print()
 
-    test.print_q_and_a()
+    choice = int(input("Wybierz województwo, którego tablic rejestracyjnych chcesz nauczyć się: "))
+
+    if choice == 1:
+        voivode = podlaskie
+    if choice == 2:
+        voivode = kujawsko_pomorskie
+    if choice == 3:
+        voivode = dolnoslaskie
+    if choice == 4:
+        voivode = lodzkie
+    if choice == 5:
+        voivode = lubuskie
+    if choice == 6:
+        voivode = pomorskie
+    if choice == 7:
+        voivode = malopolskie
+    if choice == 8:
+        voivode = lubelskie
+    if choice == 9:
+        voivode = warminsko_mazurskie
+    if choice == 10:
+        voivode = opolskie
+    if choice == 11:
+        voivode = wielkopolskie
+    if choice == 12:
+        voivode = podkarpackie
+    if choice == 13:
+        voivode = slaskie
+    if choice == 14:
+        voivode = swietokrzyskie
+    if choice == 15:
+        voivode = mazowieckie
+    if choice == 16:
+        voivode = zachodniopomorskie
+
+    return voivode
+
+
+def main():
+    while True:
+        try:
+            test = Voivodeship(menu())
+            while True:
+                try:
+                    test.print_q_and_a()
+                except UnboundLocalError:
+                    print()
+                    print("Do zobaczenia!")
+                    break
+                except ValueError:
+                    print()
+                    print("Do zobaczenia!")
+                    break
+        except UnboundLocalError:
+            print()
+            print("Do zobaczenia!")
+            break
+        except ValueError:
+            print()
+            print("Do zobaczenia!")
+            break
 
 
 if __name__ == '__main__':
