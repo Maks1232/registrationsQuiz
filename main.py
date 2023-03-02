@@ -18,8 +18,17 @@ class Voivodeship:
         while len(answers) < 4:
             # wybieramy losową wartość ze słownika, ale tylko jeśli nie jest już na liście
             random_answer = random.choice(list(self.voivodeship_dict.values()))
-            if random_answer not in answers:
-                answers.append(random_answer)
+            for similar_answer in list(self.voivodeship_dict.values()):
+                if random_answer and similar_answer not in answers:
+                    if similar_answer == random_answer:
+                        answers.append(random_answer)
+                        if len(answers) == 4:
+                            break
+                    elif similar_answer[0].lower() == correct_answer[0].lower():
+                        answers.append(similar_answer)
+                        if len(answers) == 4:
+                            break
+
         # losowo przemieszczamy poprawną odpowiedź
         random.shuffle(answers)
         return answers
