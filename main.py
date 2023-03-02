@@ -570,7 +570,7 @@ def main():
                 elif play.lower() == "tak":
                     # uruchamiamy quiz
                     correct = 0
-                    total = 0
+                    total = 1
                     while True:
                         result = quiz.ask_question()
                         if not result:
