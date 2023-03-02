@@ -4,44 +4,48 @@ import colorama as colorama
 
 
 class Voivodeship:
-    def __init__(self, voivodeship):
-        self.voivodeship = voivodeship
+    def __init__(self, voivodeship_dict):
+        self.voivodeship_dict = voivodeship_dict
 
-    def print_q_and_a(self):
+    def get_random_question(self):
+        # wybieramy losowy klucz i wartość ze słownika
+        question, answer = random.choice(list(self.voivodeship_dict.items()))
+        return question, answer
 
-        question_and_answer = random.choice(list(self.voivodeship.items()))
-        result = []
-        random_slot = random.randint(0, 3)
-        colorama.init(autoreset=True)
+    def generate_answers(self, correct_answer):
+        # generujemy listę odpowiedzi, w tym poprawnej odpowiedzi
+        answers = [correct_answer]
+        while len(answers) < 4:
+            # wybieramy losową wartość ze słownika, ale tylko jeśli nie jest już na liście
+            random_answer = random.choice(list(self.voivodeship_dict.values()))
+            if random_answer not in answers:
+                answers.append(random_answer)
+        # losowo przemieszczamy poprawną odpowiedź
+        random.shuffle(answers)
+        return answers
 
+    def ask_question(self):
+        question, correct_answer = self.get_random_question()
+        answers = self.generate_answers(correct_answer)
+
+        print(f"\nCo to za rejestracja?: {question}")
+        for i, answer in enumerate(answers, start=1):
+            print(f"{i}. {answer}")
         while True:
-            while len(result) < 4:
-                element = random.choice(list(self.voivodeship.values()))
-                if element not in result:
-                    result.append(element)
-
-            result[random_slot] = str(question_and_answer[1])
-
-            if result.count(str(question_and_answer[1])) > 1:
-                result.clear()
-            else:
-                break
-
-        print("\nCo to za rejestracja? " + str(question_and_answer[0]))
-        iteration = 1
-        for answer in result:
-            print(str(iteration) + ". " + answer)
-            iteration += 1
-
-        while True:
-            guess = int(input("Odpowiedź: "))
-            if guess == random_slot + 1:
-                print(colorama.Fore.GREEN + "Poprawna odpowiedź!")
-                break
-            elif guess == 0:
-                break
-            else:
-                print(colorama.Fore.RED + "\nNiepoprawna odpowiedź!")
+            guess = input("Odpowiedź: ")
+            if guess == "0":
+                return False
+            try:
+                guess = int(guess)
+                if 1 <= guess <= 4:
+                    if guess - 1 == answers.index(correct_answer):
+                        print(colorama.Fore.GREEN + "Poprawna odpowiedź!")
+                        return True
+                    else:
+                        print(colorama.Fore.RED + "\nNiepoprawna odpowiedź!")
+                        return False
+            except ValueError:
+                pass
 
 
 def menu():
@@ -502,7 +506,7 @@ def menu():
     print("16. Zachodnipomorskie")
     print()
 
-    choice = int(input("Wybierz województwo, którego tablic rejestracyjnych chcesz nauczyć się: "))
+    choice = int(input("Wybierz numer województwa do nauki lub 0 aby wyjść: "))
 
     if choice == 1:
         voivode = podlaskie
@@ -541,20 +545,36 @@ def menu():
 
 
 def main():
+    # inicjalizujemy moduł colorama
+    colorama.init(autoreset=True)
+    # tworzymy obiekt klasy Voivodeship
+
     while True:
         try:
-            test = Voivodeship(menu())
+            quiz = Voivodeship(menu())
+
+            # pytamy użytkownika, czy chce zagrać w quiz
             while True:
-                try:
-                    test.print_q_and_a()
-                except UnboundLocalError:
-                    print()
-                    print("Do zobaczenia!")
+                play = input("Czy chcesz zagrać w quiz? [Tak/Nie]: ")
+                if play.lower() == "nie":
                     break
-                except ValueError:
-                    print()
-                    print("Do zobaczenia!")
-                    break
+                elif play.lower() == "tak":
+                    # uruchamiamy quiz
+                    correct = 0
+                    total = 0
+                    while True:
+                        result = quiz.ask_question()
+                        if not result:
+                            break
+                        elif result:
+                            correct += 1
+                        total += 1
+
+                    # podsumowanie wyników
+                    print(f"Twój wynik to: {correct}/{total}\n")
+
+            # kończymy program
+            print("Dziękujemy za grę!")
         except UnboundLocalError:
             print()
             print("Do zobaczenia!")
@@ -565,5 +585,5 @@ def main():
             break
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
